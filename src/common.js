@@ -1,5 +1,5 @@
-var config = require('config');
-var coala = require('coala');
+const config = require('config');
+const coala = require('coala');
 var invalidSession = false;
 
 require('vendors/qui/css/bootstrap.min.css');

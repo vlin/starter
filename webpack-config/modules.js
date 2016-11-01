@@ -5,11 +5,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // 定义所需的 loader
 const modules = {
-  noParse: [
-    config.srcDir + '/assets/vendor/qui/js/bootstrap.min',
-    'node_modules/jquery/dist/jquery.min',
-    config.srcDir + '/assets/vendors/qui/css/bootstrap.min.css'
-  ],
+  // noParse: [
+  //   config.srcDir + '/assets/vendor/qui/js/bootstrap.min',
+  //   'node_modules/jquery/dist/jquery.min',
+  //   config.srcDir + '/assets/vendors/qui/css/bootstrap.min.css'
+  // ],
   loaders: [{
     test: require.resolve('jquery'),
     loader: 'expose?$!expose?jQuery'

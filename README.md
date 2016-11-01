@@ -35,3 +35,4 @@ webpack --display-modules --profile --colors
 
 https://github.com/webpack/docs/wiki/configuration#devtool
 
+webpack --display-modules --profile --colors --progress
