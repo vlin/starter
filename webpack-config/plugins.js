@@ -11,13 +11,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // 定义 plugin
 const plugins = [
-
   new HappyPack({
     id: 'css',
     threads: 4,
     loaders: ['css?minimize&-autoprefixer']
   }),
-
   new HappyPack({
     id: 'iconfont',
     threads: 2,
@@ -45,7 +43,6 @@ const plugins = [
     }
   })*/
 
-  // ,
   new ExtractTextPlugin('css/[name]-[chunkhash:8].css')
 
 ];
@@ -60,8 +57,6 @@ pages.forEach(function(page) {
       removeComments: true,
       collapseWhitespace: true
     }
-    //hash: true, // 为静态资源生成hash值
-    //xhtml: true
   });
   plugins.push(htmlPlugin);
 });

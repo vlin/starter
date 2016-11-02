@@ -1,13 +1,11 @@
-const config = require('config');
-const coala = require('coala');
+var config = require('config');
+var coala = require('coala');
 var invalidSession = false;
 
 require('vendors/qui/css/bootstrap.min.css');
 require('vendors/iconfont/iconfont.css');
 require('vendors/qui/js/bootstrap.min');
 
-
-window.config = config;
 // setup the default parameter for all of the ajax requests
 $.ajaxSetup({
   cache: false,
@@ -33,12 +31,12 @@ $.ajaxPrefilter(function(options, originalOptions, xhr) {
   } else if (options.robot) {
     xhr.setRequestHeader('X-Robot', true);
   } else if (options.loading) {
-    options.layerId = layer.msg('加载中...', {icon: 16});
+    //options.layerId = layer.msg('加载中...', {icon: 16});
   }
 });
 
 $(document).off('ajaxComplete').on('ajaxComplete', function(e, req, options) {
   if (options.loading) {
-    layer.close(options.layerId);
+    //layer.close(options.layerId);
   }
 });
