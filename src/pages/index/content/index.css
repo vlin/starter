@@ -1,8 +1,12 @@
 .msg {
-  color: red;
+  color: #f90;
+  background-color: #000;
+  padding: 5px;
 }
-.doll{
+
+.doll {
   background: url(img/bonus-img.png) no-repeat;
   width: 127px;
   height: 134px;
+  margin: 20px;
 }
