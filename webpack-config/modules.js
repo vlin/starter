@@ -20,16 +20,20 @@ const modules = {
   }, {
     test: /\.css$/,
     include: config.srcDir,
-    loader: ExtractTextPlugin.extract('css?minimize&-autoprefixer!postcss')
+    loader: ExtractTextPlugin.extract('happypack/loader?id=css')
+
+    // loader: ExtractTextPlugin.extract('css?minimize&-autoprefixer!postcss')
   }, {
     test: /\.(png|jpg|gif)$/,
     include: config.srcDir,
-    loader: 'url?limit=8192&name=static/img/[hash].[ext]'
+    loader: 'file?name=static/img/[name].[ext]'
   }, {
     // iconfont
     test: /\.(woff|woff2|svg|eot|ttf)\??.*$/,
     include: config.srcDir + '/assets/vendors/',
-    loader: 'file?name=static/fonts/[name].[ext]'
+    loaders: ['happypack/loader?id=iconfont']
+
+    // loader: 'file?name=static/fonts/[name].[ext]'
   }]
 };
 

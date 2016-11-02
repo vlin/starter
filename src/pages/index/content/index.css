@@ -1,6 +1,8 @@
-.abc {
+.msg {
   color: red;
 }
-.cba {
-  color: yellowgreen;
+.doll{
+  background: url(img/bonus-img.png) no-repeat;
+  width: 127px;
+  height: 134px;
 }

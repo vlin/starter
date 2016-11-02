@@ -1,4 +1,5 @@
-.DS_Store
 node_modules
 dist
+.happypack
+.DS_Store
 *.log
