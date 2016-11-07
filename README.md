@@ -23,9 +23,10 @@ webpack --display-modules --profile --colors
 * --display-modules默认情况下 node_modules 下的模块会被隐藏，加上这个参数可以显示这些被隐藏的模块 这次命令行的结果已经很有参考价值，可以帮助我们定位耗时比较长的步骤
 
 
-### [hash] [chunkhash:8] 的区别
+### [hash] [chunkhash:8] [contenthash]的区别
 [hash] 由当次编译生成的 hash 值，每次编译 hash 值都不同。
-[chunkhash:8] 编译时根据 chunk 生成 hash，某个编译后的 chunk 如果没有修改过，则 chunkhash 与上次保持一致
+[chunkhash:8] 编译时根据 chunk 生成 hash
+[contenthash] 根据文件内容生成 hash，，某个文件内容没有变化过，则 contenthash 与上次保持一致
 
 ### devtool
 

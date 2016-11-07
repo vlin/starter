@@ -2,5 +2,6 @@ form{
 margin:0
 }
 #user{
-color:red
+color:red;
+background-image: url(img/test.jpg);
 }

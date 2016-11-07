@@ -3,3 +3,4 @@ dist
 .happypack
 .DS_Store
 *.log
+yarn.lock

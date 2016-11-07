@@ -7,11 +7,24 @@ const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-// const DashboardPlugin = require('webpack-dashboard/plugin');
+const happyThreadPool = HappyPack.ThreadPool({ size: 25 });
 
-// 定义 plugin
-const plugins = [
-  new HappyPack({
+function createHappyPlugin(id, loaders) {
+  return new HappyPack({
+    id: id,
+    loaders: loaders,
+    threadPool: happyThreadPool,
+
+    // disable happy caching with HAPPY_CACHE=0
+    cache: true,
+
+    // make happy more verbose with HAPPY_VERBOSE=1
+    verbose: process.env.HAPPY_VERBOSE === '1'
+  });
+}
+
+/*
+new HappyPack({
     id: 'css',
     threads: 4,
     loaders: ['css?minimize&-autoprefixer']
@@ -21,8 +34,10 @@ const plugins = [
     threads: 2,
     loaders: ['file?name=static/fonts/[name].[ext]']
   }),
+*/
 
-  // new DashboardPlugin(),
+// 定义 plugin
+const plugins = [
   // 全局 jquery
   new webpack.ProvidePlugin({
     $: 'jquery',
@@ -42,7 +57,12 @@ const plugins = [
       drop_console: true
     }
   })*/
-
+  createHappyPlugin('css', ['css?minimize&-autoprefixer']),
+  createHappyPlugin('font-ttf', ['file?name=static/fonts/[name].[ext]&minetype=application/octet-stream']),
+  createHappyPlugin('font-eot', ['file?name=static/fonts/[name].[ext]']),
+  createHappyPlugin('font-svg', ['file?name=static/fonts/[name].[ext]&minetype=image/svg+xml']),
+  createHappyPlugin('font-woff', ['file?name=static/fonts/[name].[ext]&minetype=application/font-woff']),
+  createHappyPlugin('font-woff2', ['file?name=static/fonts/[name].[ext]&minetype=application/font-woff']),
   new ExtractTextPlugin('css/[name]-[chunkhash:8].css')
 
 ];
