@@ -2,29 +2,29 @@
   "name": "qfang-starter-kit",
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack-dev-server --display-modules --display-error-details --colors --hot --host 0.0.0.0 --port 8080",
-    "build": "webpack --config webpack.production.js --display-modules --profile --colors"
+    "start": "rm -rf .happypack && webpack-dev-server --display-modules --display-error-details --colors --hot --host 0.0.0.0 --port 8080",
+    "build": "rm -rf .happypack dist && webpack --config webpack.production.js --display-modules --profile --colors && zip -r dist.zip dist"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
     "coala": "~0.0.8",
-    "css-loader": "^0.18.0",
+    "copy-webpack-plugin": "^4.0.0",
+    "css-loader": "^0.26.1",
     "dot-loader": "^0.1.1",
     "expose-loader": "^0.7.1",
     "extract-text-webpack-plugin": "^1.0.1",
-    "file-loader": "^0.8.4",
+    "file-loader": "0.8.4",
     "glob": "^7.1.1",
-    "happypack": "^2.2.1",
+    "happypack": "^3.0.1",
     "html-webpack-plugin": "^2.24.0",
     "jquery": "^1.12.3",
     "postcss-loader": "^1.1.0",
     "precss": "^1.4.0",
-    "rimraf": "^2.5.4",
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.1",
-    "webpack-dashboard": "^0.2.0",
-    "webpack-dev-server": "^1.10.1"
+    "webpack-dev-server": "^1.10.1",
+    "webpack-md5-hash": "^0.0.5"
   },
   "repository": {
     "type": "git"
@@ -33,5 +33,7 @@
     "coala",
     "qfang"
   ],
-  "author": "qfang.com"
+  "author": "qfang.com",
+  "license": "MIT",
+  "dependencies": {}
 }

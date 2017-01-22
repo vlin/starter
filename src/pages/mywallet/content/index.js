@@ -1,7 +1,9 @@
 var coala = require('coala');
 var config = require('config');
 var tpl = require('./index.html');
-require('./index.css');
+var  $= require('jquery');
+
+
 
 module.exports = {
   tpl: tpl,

@@ -26,7 +26,7 @@ webpack --display-modules --profile --colors
 ### [hash] [chunkhash:8] [contenthash]的区别
 [hash] 由当次编译生成的 hash 值，每次编译 hash 值都不同。
 [chunkhash:8] 编译时根据 chunk 生成 hash
-[contenthash] 根据文件内容生成 hash，，某个文件内容没有变化过，则 contenthash 与上次保持一致
+[contenthash] 根据文件内容生成 hash，某个文件内容没有变化过，则 contenthash 与上次保持一致
 
 ### devtool
 
@@ -37,3 +37,21 @@ webpack --display-modules --profile --colors
 https://github.com/webpack/docs/wiki/configuration#devtool
 
 webpack --display-modules --profile --colors --progress
+
+
+直接使用 file-loader 将各类字库文件复制并重命名到指定目录时，出现以下错误信息
+Failed to decode downloaded font: http://broker.qfang.com/static/fonts/iconfont.woff
+jquery.js:6718 OTS parsing error: incorrect file size in WOFF header
+jquery.js:6718 Failed to decode downloaded font: http://broker.qfang.com/static/fonts/iconfont.ttf
+jquery.js:6718 OTS parsing error: incorrect entrySelector for table directory
+原因：经 file-loader 后所复制出的字库文件尺寸发生变化，导致浏览器无法识别
+解决方案： 声明 loader 时需声明 minetype ，如：loader: 'file?name=static/fonts/[name].[ext]&minetype=application/font-woff'
+
+
+  // 全局 jquery
+  new webpack.ProvidePlugin({
+    $: 'jquery',
+    jQuery: 'jquery',
+    'window.jQuery': 'jquery',
+    'window.$': 'jquery'
+  }),

@@ -6,8 +6,10 @@ const webpack = require('webpack');
 const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+var WebpackMd5Hash = require('webpack-md5-hash');
 
-const happyThreadPool = HappyPack.ThreadPool({ size: 25 });
+const happyThreadPool = HappyPack.ThreadPool({ size: 10 });
 
 function createHappyPlugin(id, loaders) {
   return new HappyPack({
@@ -15,26 +17,10 @@ function createHappyPlugin(id, loaders) {
     loaders: loaders,
     threadPool: happyThreadPool,
 
-    // disable happy caching with HAPPY_CACHE=0
-    cache: true,
-
     // make happy more verbose with HAPPY_VERBOSE=1
     verbose: process.env.HAPPY_VERBOSE === '1'
   });
 }
-
-/*
-new HappyPack({
-    id: 'css',
-    threads: 4,
-    loaders: ['css?minimize&-autoprefixer']
-  }),
-  new HappyPack({
-    id: 'iconfont',
-    threads: 2,
-    loaders: ['file?name=static/fonts/[name].[ext]']
-  }),
-*/
 
 // 定义 plugin
 const plugins = [
@@ -45,11 +31,15 @@ const plugins = [
     'window.jQuery': 'jquery',
     'window.$': 'jquery'
   }),
+  // new WebpackMd5Hash(), // replace a standard webpack chunkhash with md5.
   new webpack.optimize.CommonsChunkPlugin({
     name: 'common',
     filename: 'js/[name]-[hash:8].js',
     minChunks: 3
   }),
+  new CopyWebpackPlugin([
+    { from: path.resolve(config.srcDir, 'assets/vendors/respond.min.js'), to: 'js/' }
+  ]),
 
   /*new webpack.optimize.UglifyJsPlugin({
     compress: {
@@ -57,13 +47,16 @@ const plugins = [
       drop_console: true
     }
   })*/
+  createHappyPlugin('html', ['dot']),
   createHappyPlugin('css', ['css?minimize&-autoprefixer']),
-  createHappyPlugin('font-ttf', ['file?name=static/fonts/[name].[ext]&minetype=application/octet-stream']),
+  createHappyPlugin('image', ['file?name=static/img/[name].[ext]']),
+
+  createHappyPlugin('font-ttf', ['file?minetype=application/octet-stream&name=static/fonts/[name].[ext]']),
   createHappyPlugin('font-eot', ['file?name=static/fonts/[name].[ext]']),
-  createHappyPlugin('font-svg', ['file?name=static/fonts/[name].[ext]&minetype=image/svg+xml']),
-  createHappyPlugin('font-woff', ['file?name=static/fonts/[name].[ext]&minetype=application/font-woff']),
-  createHappyPlugin('font-woff2', ['file?name=static/fonts/[name].[ext]&minetype=application/font-woff']),
-  new ExtractTextPlugin('css/[name]-[chunkhash:8].css')
+  createHappyPlugin('font-svg', ['file?minetype=image/svg+xml&name=static/fonts/[name].[ext]']),
+  createHappyPlugin('font-woff', ['file?minetype=application/font-woff&name=static/fonts/[name].[ext]']),
+
+  new ExtractTextPlugin('css/[name]-[contenthash:8].css') //, {allChunks: true})
 
 ];
 

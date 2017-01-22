@@ -16,7 +16,9 @@ module.exports = {
   plugins: plugins,
   module: require('./webpack-config/modules'),
   resolve: {
-    modulesDirectories: ['node_modules', 'src', 'src/pages', 'src/assets']
+    modulesDirectories: ['node_modules', 'src', 'src/pages', 'src/assets'],
+    alias: {},
+    noParse: []
   },
   postcss: require('./webpack-config/postcss')
 };

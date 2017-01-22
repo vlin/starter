@@ -2,7 +2,7 @@ var config = require('config');
 var coala = require('coala');
 var invalidSession = false;
 
-//require('vendors/qui/css/bootstrap.min.css');
+require('vendors/qui/css/bootstrap.min.css');
 require('vendors/iconfont/iconfont.css');
 require('vendors/qui/js/bootstrap.min');
 
