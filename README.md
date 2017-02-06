@@ -19,8 +19,8 @@ webpack --display-modules --profile --colors
 新增加了三个参数，这三个参数的含义分别是：
 
 * --colors 输出结果带彩色，比如：会用红色显示耗时较长的步骤
-* --profile输出性能数据，可以看到每一步的耗时
-* --display-modules默认情况下 node_modules 下的模块会被隐藏，加上这个参数可以显示这些被隐藏的模块 这次命令行的结果已经很有参考价值，可以帮助我们定位耗时比较长的步骤
+* --profile 输出性能数据，可以看到每一步的耗时
+* --display-modules 默认情况下 node_modules 下的模块会被隐藏，加上这个参数可以显示这些被隐藏的模块 这次命令行的结果已经很有参考价值，可以帮助我们定位耗时比较长的步骤
 
 
 ### [hash] [chunkhash:8] [contenthash]的区别
@@ -31,27 +31,32 @@ webpack --display-modules --profile --colors
 ### devtool
 
 * eval  generated code
-# cheap-source-map  transformed code (lines only)
+* cheap-source-map  transformed code (lines only)
 * source-map  original source
 
 https://github.com/webpack/docs/wiki/configuration#devtool
 
 webpack --display-modules --profile --colors --progress
 
-
+### Issues
 直接使用 file-loader 将各类字库文件复制并重命名到指定目录时，出现以下错误信息
+```
 Failed to decode downloaded font: http://broker.qfang.com/static/fonts/iconfont.woff
 jquery.js:6718 OTS parsing error: incorrect file size in WOFF header
 jquery.js:6718 Failed to decode downloaded font: http://broker.qfang.com/static/fonts/iconfont.ttf
 jquery.js:6718 OTS parsing error: incorrect entrySelector for table directory
+```
+
 原因：经 file-loader 后所复制出的字库文件尺寸发生变化，导致浏览器无法识别
 解决方案： 声明 loader 时需声明 minetype ，如：loader: 'file?name=static/fonts/[name].[ext]&minetype=application/font-woff'
 
 
-  // 全局 jquery
+#### 全局 jquery
+```
   new webpack.ProvidePlugin({
     $: 'jquery',
     jQuery: 'jquery',
     'window.jQuery': 'jquery',
     'window.$': 'jquery'
   }),
+```
