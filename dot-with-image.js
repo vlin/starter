@@ -31,7 +31,11 @@ function parseUrl(context, content) {
         fs.statSync(fullPath);
         resources.push({ path: url, Path: fullPath });
       } catch (err) {
-        console.error('[' + fullPath + ']: it does not exist.');
+        throw new Error(
+        '[' + fullPath + ']: it does not exist.'
+      )
+
+       // console.error('[' + fullPath + ']: it does not exist.');
       }
     }
   }
