@@ -1,0 +1,207 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Webpack</title>
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css">
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="lib/css/zenburn.css">
+  <!-- Printing and PDF exports -->
+  <script>
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName('head')[0].appendChild(link);
+  </script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section>
+        <h1>Webpack</h1>
+        <h3>前后端分离项目脚手架构建实践</h3>
+      </section>
+      <section>
+        <p>
+          <ol>
+            <li class="fragment">为什么用 Webpack ？</li>
+            <li class="fragment">构建过程</li>
+            <li class="fragment">参考资料</li>
+          </ol>
+        </p>
+      </section>
+      <section>
+        <h3>它能做什么？</h3>
+        <ol>
+          <li>浏览器端使用 commonJS 规范管理依赖</li>
+          <li>任何静态资源均可被模块化</li>
+          <li>支持模块热替换</li>
+          <li>替代其它构建工具</li>
+        </ol>
+      </section>
+      <section>
+        <h3>拥有的特性</h3>
+        <ul>
+          <li>按需加载，分离依赖</li>
+          <li>减少初始化加载时间</li>
+          <li>“万物”皆模块</li>
+          <li>各类插件扩展构建功能</li>
+        </ul>
+      </section>
+      <section>
+        最简单的 webpack 配置文件
+        <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+// webpack.config.js
+var path = require('path');
+
+module.exports = {
+  entry: '../src/entry.js', //入口文件
+  output: {
+    path: path.join(__dirname, 'project'), //打包输出的路径
+    filename: 'bundle.js', //打包后的名字
+    publicPath: './project/' //html引用路径，在这里是本地地址。
+  },
+  module: {
+    loaders: [
+      { test: /\.css$/, loader: "style!css" }  // 使用加载器对 css 资源进行处理
+    ]
+  }
+};
+        </code></pre>
+      </section>
+      <section>
+        <ol>
+          <li> 开发环境，反向代理接口服务器</li>
+          <li> 自动生成静态资源及替换路径</li>
+          <li> jQuery 的引用</li>
+          <li> 编译性能提升</li>
+        </ol>
+      </section>
+      <section>
+        <h3>反向代理接口服务器</h3>
+        <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+proxy: {
+  '/api/*': {
+    target: 'https://api.github.com/',
+    changeOrigin: true,
+    // 根据实际情况配置是否需要重写 url
+    // 重写路径，转发请求前，去除自定义路径前缀
+    pathRewrite: {
+        '^/api': ''
+      }
+  }
+}
+</code></pre>
+      </section>
+      <section>
+        <h3>jQuery 的引用</h3>
+        <section>
+          <h4>1. ProvidePlugin + expose-loader</h4>
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+var providePlugin = new webpack.ProvidePlugin({
+  $: 'jquery',
+  jQuery: 'jquery',
+  'window.jQuery': 'jquery',
+  'window.$': 'jquery',
+});
+          </code></pre>
+          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
+            当 webpack 加载到某个 js 模块里，出现了未定义且名称符合（字符串完全匹配）配置中 key 的变量时，会自动 require 配置中 value 所指定的 js 模块。另外，再也不用在代码中加 require('jQuery')。
+          </div>
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+{
+  test: require.resolve('jquery'),
+  // 先把 jQuery 对象声明成为全局变量 `jQuery`，再通过管道进一步声明成为全局变量 `$`
+  loader: 'expose?$!expose?jQuery'
+}
+          </code></pre>
+          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
+            expose-loader 的作用是，将指定 js 模块 export 的变量声明为全局变量。
+          </div>
+        </section>
+        <section>
+          <h4>2. externals</h4>
+          <pre><code class="html"><script src="./js/jquery.min.js"></script></code></pre>
+          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
+            需额外使用 script 标签将 jQuery 引入页面。
+            <br> 但是当需使用外部 CDN 资源时，以 externals 方式反而更合适。
+          </div>
+        </section>
+      </section>
+      <section>
+        <h3>[hash] [chunkhash:8] [contenthash]的区别</h3> [hash]
+        <br> 由当次编译生成的 hash 值，每次编译 hash 值都不同。
+        <br> [chunkhash:8]
+        <br> 编译时以每个 chunk 为单位单独生成 hash。指定 8 位，默认 20 位
+        <br> 引入 webpack-md5-hash 可解决仅修改 css 而没修改 js 时，同时变化 chunkhash 的问题。 [contenthash]
+        <br> 根据文件内容生成 hash，某个文件内容没有变化，则 contenthash 与上次保持一致。
+        <br> (输出脚本文件名不支持 contenthash)
+        <br>
+        <br> 每个值的适用场景不同，组合使用。
+      </section>
+      <section>
+        <h3>编译性能提升</h3> Happy Pack
+      </section>
+      <section>plugins
+        <pre><code class="javascript" data-trim contenteditable style="font-size: 14px;">
+  {
+    "autoprefixer": "^6.5.1",
+    "coala": "~0.0.8",
+    "copy-webpack-plugin": "^4.0.0",
+    "css-loader": "^0.26.1",
+    "dot-loader": "^0.1.1",
+    "expose-loader": "^0.7.1",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "0.8.4",
+    "glob": "^7.1.1",
+    "happypack": "^3.0.1",
+    "html-webpack-plugin": "^2.24.0",
+    "jquery": "^1.12.3",
+    "postcss-loader": "^1.1.0",
+    "precss": "^1.4.0",
+    "style-loader": "^0.12.4",
+    "url-loader": "^0.5.6",
+    "webpack": "^1.12.1",
+    "webpack-dev-server": "^1.10.1"
+  }
+</code></pre>
+      </section>
+      <section>
+        <h4>踩坑</h4>
+      </section>
+    </div>
+  </div>
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+  <script>
+  // More info https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    history: true,
+    width: 1000,
+    height: 700,
+
+    // More info https://github.com/hakimel/reveal.js#dependencies
+    dependencies: [{
+      src: 'plugin/markdown/marked.js'
+    }, {
+      src: 'plugin/markdown/markdown.js'
+    }, {
+      src: 'plugin/notes/notes.js',
+      async: true
+    }, {
+      src: 'plugin/highlight/highlight.js',
+      async: true,
+      callback: function() {
+        hljs.initHighlightingOnLoad();
+      }
+    }]
+  });
+  </script>
+</body>
+
+</html>
