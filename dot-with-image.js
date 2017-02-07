@@ -19,7 +19,7 @@ function replaceAll(find, replace, str) {
 }
 
 function parseUrl(context, content) {
-  //var re = /src="([^"]*)"/g;
+  // 匹配所有图片路径，包括 <img src=""> data-xxx="" 等
   var re = /(\"|\'){1}([^("|')]*\.(png|jpg|gif)\??.*?)(\"|\'){1}/g;
   var resources = [];
   while (arr = re.exec(content)) {
@@ -31,11 +31,7 @@ function parseUrl(context, content) {
         fs.statSync(fullPath);
         resources.push({ path: url, Path: fullPath });
       } catch (err) {
-        throw new Error(
-        '[' + fullPath + ']: it does not exist.'
-      )
-
-       // console.error('[' + fullPath + ']: it does not exist.');
+        throw new Error('[' + fullPath + ']: it does not exist.');
       }
     }
   }
