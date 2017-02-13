@@ -41,20 +41,14 @@ const plugins = [
     { from: path.resolve(config.srcDir, 'assets/vendors/respond.min.js'), to: 'js/' }
   ]),
 
-  /*new webpack.optimize.UglifyJsPlugin({
-    compress: {
-      warnings: false,
-      drop_console: true
-    }
-  })*/
   createHappyPlugin('html', ['dot']),
   createHappyPlugin('css', ['css?minimize&-autoprefixer']),
-  createHappyPlugin('image', ['file?name=static/img/[name].[ext]']),
+  createHappyPlugin('image', ['file?name=static/img/[name]-[hash:8].[ext]']),
 
-  createHappyPlugin('font-ttf', ['file?minetype=application/octet-stream&name=static/fonts/[name].[ext]']),
-  createHappyPlugin('font-eot', ['file?name=static/fonts/[name].[ext]']),
-  createHappyPlugin('font-svg', ['file?minetype=image/svg+xml&name=static/fonts/[name].[ext]']),
-  createHappyPlugin('font-woff', ['file?minetype=application/font-woff&name=static/fonts/[name].[ext]']),
+  createHappyPlugin('font-ttf', ['file?minetype=application/octet-stream&name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-eot', ['file?name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-svg', ['file?minetype=image/svg+xml&name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-woff', ['file?minetype=application/font-woff&name=static/fonts/[name]-[hash:8].[ext]']),
 
   new ExtractTextPlugin('css/[name]-[contenthash:8].css') //, {allChunks: true})
 

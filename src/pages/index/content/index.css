@@ -1,11 +1,17 @@
+button{
+  display: block;
+  margin: 20px 0;
+  border: 0;
+}
 .msg {
   color: #f91;
   background-color: #111;
   padding: 5px;
 }
 
-.doll {
-  background: url(img/bonus-img.png) no-repeat;
+.avatar {
+  background: url(img/avatar.jpg) no-repeat;
+  background-size: 100% 100%;
   width: 127px;
   height: 134px;
   margin: 20px;

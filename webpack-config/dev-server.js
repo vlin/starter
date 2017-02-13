@@ -1,7 +1,6 @@
 // dev server，定义反向代理
 const devServer = {
   historyApiFallback: true,
-  hot: true,
   inline: true,
   stats: {
     colors: true

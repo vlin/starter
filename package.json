@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "start": "rm -rf .happypack && webpack-dev-server --display-modules --display-error-details --colors --hot --host 0.0.0.0 --port 8080",
-    "build": "rm -rf .happypack dist && webpack --config webpack.production.js --display-modules --profile --colors && zip -r dist.zip dist"
+    "build": "rm -rf .happypack dist && webpack --config webpack.production.js --display-modules --profile --colors --deploy"
   },
   "devDependencies": {
     "autoprefixer": "^6.5.1",
@@ -20,6 +20,7 @@
     "jquery": "^1.12.3",
     "postcss-loader": "^1.1.0",
     "precss": "^1.4.0",
+    "ssh-webpack-plugin": "^0.1.7",
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.1",
