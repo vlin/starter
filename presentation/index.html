@@ -49,7 +49,6 @@
         <ul>
           <li>按需加载，分离依赖</li>
           <li>减少初始化加载时间</li>
-          <li>“万物”皆模块</li>
           <li>各类插件扩展构建功能</li>
         </ul>
       </section>
@@ -102,24 +101,20 @@ proxy: {
         <h3>jQuery 的引用</h3>
         <section>
           <h4>1. ProvidePlugin + expose-loader</h4>
-          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-var providePlugin = new webpack.ProvidePlugin({
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">var providePlugin = new webpack.ProvidePlugin({
   $: 'jquery',
   jQuery: 'jquery',
   'window.jQuery': 'jquery',
   'window.$': 'jquery',
-});
-          </code></pre>
+});</code></pre>
           <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
             当 webpack 加载到某个 js 模块里，出现了未定义且名称符合（字符串完全匹配）配置中 key 的变量时，会自动 require 配置中 value 所指定的 js 模块。另外，再也不用在代码中加 require('jQuery')。
           </div>
-          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-{
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">{
   test: require.resolve('jquery'),
   // 先把 jQuery 对象声明成为全局变量 `jQuery`，再通过管道进一步声明成为全局变量 `$`
   loader: 'expose?$!expose?jQuery'
-}
-          </code></pre>
+}</code></pre>
           <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
             expose-loader 的作用是，将指定 js 模块 export 的变量声明为全局变量。
           </div>
@@ -129,20 +124,24 @@ var providePlugin = new webpack.ProvidePlugin({
           <pre><code class="html"><script src="./js/jquery.min.js"></script></code></pre>
           <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
             需额外使用 script 标签将 jQuery 引入页面。
-            <br> 但是当需使用外部 CDN 资源时，以 externals 方式反而更合适。
+            <br>但是当需使用外部 CDN 资源时，以 externals 方式反而更合适。
           </div>
         </section>
       </section>
       <section>
-        <h3>[hash] [chunkhash:8] [contenthash]的区别</h3> [hash]
-        <br> 由当次编译生成的 hash 值，每次编译 hash 值都不同。
-        <br> [chunkhash:8]
-        <br> 编译时以每个 chunk 为单位单独生成 hash。指定 8 位，默认 20 位
-        <br> 引入 webpack-md5-hash 可解决仅修改 css 而没修改 js 时，同时变化 chunkhash 的问题。 [contenthash]
-        <br> 根据文件内容生成 hash，某个文件内容没有变化，则 contenthash 与上次保持一致。
-        <br> (输出脚本文件名不支持 contenthash)
-        <br>
-        <br> 每个值的适用场景不同，组合使用。
+        <h3>[hash] [chunkhash:8] [contenthash]的区别</h3>
+        <ul>
+        <li>[hash]<br>
+        <span style="font-size:24px;">由当次编译生成的 hash 值，每次编译 hash 值都不同。</span></li>
+        <li>[chunkhash:8]<br>
+        <span style="font-size:24px;">编译时以每个 chunk 为单位单独生成 hash。指定 8 位，默认 20 位
+        <br>引入 webpack-md5-hash 可解决仅修改 css 而没修改 js 时，同时变化 chunkhash 的问题。</span></li>
+        <li>[contenthash]<br>
+        <span style="font-size:24px;">根据文件内容生成 hash，某个文件内容没有变化，则 contenthash 与上次保持一致。
+        <br> (输出脚本文件名不支持 contenthash)</span>
+        </li>
+        </ul>
+        <br><br>每个值的适用场景不同，组合使用。
       </section>
       <section>
         <h3>编译性能提升</h3> Happy Pack
@@ -170,9 +169,6 @@ var providePlugin = new webpack.ProvidePlugin({
     "webpack-dev-server": "^1.10.1"
   }
 </code></pre>
-      </section>
-      <section>
-        <h4>踩坑</h4>
       </section>
     </div>
   </div>
