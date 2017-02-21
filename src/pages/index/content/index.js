@@ -12,7 +12,6 @@ module.exports = {
 
     updated: function() {
       console.log('updated');
-      //$('#test').attr('src', $('#test').data('src'));
     }
   },
   events: {
@@ -21,11 +20,12 @@ module.exports = {
   handle: {
     show: function() {
       require.ensure([], function() {
-        require('./my-alert.css');
-        var myAlert = require('./my-alert');
+        var name = ~~(Math.random() * 10) % 2 ? 'my-aler' : 'tes';
+//        var myAlert = require('./' + name); //require('./my-alert');
+        var myAlert = require(`./${name}t`);
         myAlert();
+
       });
     }
   }
-
 };

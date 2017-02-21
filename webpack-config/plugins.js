@@ -35,23 +35,27 @@ const plugins = [
   new webpack.optimize.CommonsChunkPlugin({
     name: 'common',
     filename: 'js/[name]-[hash:8].js',
-    minChunks: 3
+    minChunks: 2
   }),
+  // 手工复制指定文件到目标目录
   new CopyWebpackPlugin([
     { from: path.resolve(config.srcDir, 'assets/vendors/respond.min.js'), to: 'js/' }
   ]),
 
   createHappyPlugin('html', ['dot']),
-  createHappyPlugin('css', ['css?minimize&-autoprefixer']),
-  createHappyPlugin('image', ['file?name=static/img/[name]-[hash:8].[ext]']),
+  createHappyPlugin('css', ['css-loader?minimize']),
+  createHappyPlugin('image', ['file-loader?name=static/img/[name]-[hash:8].[ext]']),
 
-  createHappyPlugin('font-ttf', ['file?minetype=application/octet-stream&name=static/fonts/[name]-[hash:8].[ext]']),
-  createHappyPlugin('font-eot', ['file?name=static/fonts/[name]-[hash:8].[ext]']),
-  createHappyPlugin('font-svg', ['file?minetype=image/svg+xml&name=static/fonts/[name]-[hash:8].[ext]']),
-  createHappyPlugin('font-woff', ['file?minetype=application/font-woff&name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-ttf', ['file-loader?minetype=application/octet-stream&name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-eot', ['file-loader?name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-svg', ['file-loader?minetype=image/svg+xml&name=static/fonts/[name]-[hash:8].[ext]']),
+  createHappyPlugin('font-woff', ['file-loader?minetype=application/font-woff&name=static/fonts/[name]-[hash:8].[ext]']),
 
-  new ExtractTextPlugin('css/[name]-[contenthash:8].css') //, {allChunks: true})
-
+  new ExtractTextPlugin({
+    filename: 'css/[name]-[contenthash:8].css'
+    /*,
+    allChunks: false*/
+  })
 ];
 
 // 自动生成 html 页面，并注入 css & js

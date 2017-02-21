@@ -1,7 +1,9 @@
 // dev server，定义反向代理
 const devServer = {
   historyApiFallback: true,
-  inline: true,
+  host: '0.0.0.0',
+  port: 8080,
+  compress: true,
   stats: {
     colors: true
   },

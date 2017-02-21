@@ -12,17 +12,17 @@ plugins.push(
   })
 );
 
-if(process.argv.indexOf('--deploy') > -1) {
+if (process.argv.indexOf('--deploy') > -1) {
   plugins.push(
-  new SshWebpackPlugin({
-    host: '192.168.0.246',
-    port: '22',
-    username: 'root',
-    password: 'qfang.com', //or use privateKey login(privateKey: require('fs').readFileSync('/path/to/private/key')).
-    from: './dist',
-    cover: false,
-    to: '/data/www/starter', //important: If the 'cover' of value is false,All files in this folder will be cleared before starting deployment.
-  })
+    new SshWebpackPlugin({
+      host: '192.168.0.246',
+      port: '22',
+      username: 'root',
+      password: 'qfang.com', //or use privateKey login(privateKey: require('fs').readFileSync('/path/to/private/key')).
+      from: './dist',
+      cover: false,
+      to: '/data/www/starter', //important: If the 'cover' of value is false,All files in this folder will be cleared before starting deployment.
+    })
   );
 }
 module.exports = {
