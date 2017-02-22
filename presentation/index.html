@@ -36,49 +36,61 @@
         </p>
       </section>
       <section>
+        <h3>为什么用它？</h3>
+        <ol>
+          <li class="fragment">旧项目中各种不同的 js 或 css 的依赖关系</li>
+          <li class="fragment">代码作用域</li>
+          <li class="fragment">重复引入的 js 或 css</li>
+        </ol>
+      </section>
+      <section>
         <h3>它能做什么？</h3>
         <ol>
-          <li>浏览器端使用 commonJS 规范管理依赖</li>
-          <li>任何静态资源均可被模块化</li>
-          <li>支持模块热替换</li>
-          <li>替代其它构建工具</li>
+          <li class="fragment">使用 commonJS 规范管理依赖</li>
+          <li class="fragment">任何静态资源均可被模块化</li>
+          <li class="fragment">支持模块热替换</li>
+          <li class="fragment">替代其它构建工具</li>
         </ol>
       </section>
       <section>
         <h3>拥有的特性</h3>
         <ul>
-          <li>按需加载，分离依赖</li>
-          <li>减少初始化加载时间</li>
-          <li>各类插件扩展构建功能</li>
+          <li class="fragment">按需加载，分离依赖</li>
+          <li class="fragment">减少初始化加载时间</li>
+          <li class="fragment">各类插件扩展构建功能</li>
         </ul>
       </section>
       <section>
-        最简单的 webpack 配置文件
+        最基础的 webpack 配置文件
         <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
 // webpack.config.js
 var path = require('path');
 
 module.exports = {
-  entry: '../src/entry.js', //入口文件
+  entry: '../src/index.js', //入口文件
   output: {
-    path: path.join(__dirname, 'project'), //打包输出的路径
+    path: path.join(__dirname, 'qfang'), //打包输出的路径
     filename: 'bundle.js', //打包后的名字
-    publicPath: './project/' //html引用路径，在这里是本地地址。
+    publicPath: './qfang/' //html引用路径，在这里是本地地址。
   },
   module: {
-    loaders: [
-      { test: /\.css$/, loader: "style!css" }  // 使用加载器对 css 资源进行处理
+    loaders: [{
+      test: /\.css$/,
+      // 使用加载器对 css 资源进行处理
+      use: [
+        'expose-loader?$',
+        'expose-loader?jQuery'
+      ]}
     ]
   }
-};
-        </code></pre>
-      </section>
+};</code></pre>
+        </section>
       <section>
         <ol>
-          <li> 开发环境，反向代理接口服务器</li>
-          <li> 自动生成静态资源及替换路径</li>
-          <li> jQuery 的引用</li>
-          <li> 编译性能提升</li>
+          <li>开发环境，反向代理接口服务器</li>
+          <li>自动生成静态资源及替换路径</li>
+          <li>全局包如何引用？</li>
+          <li>编译性能提升</li>
         </ol>
       </section>
       <section>
@@ -98,32 +110,43 @@ proxy: {
 </code></pre>
       </section>
       <section>
-        <h3>jQuery 的引用</h3>
+        <h3 style="font-size: 1.1em">全局包如何引用?</h3>
         <section>
-          <h4>1. ProvidePlugin + expose-loader</h4>
-          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">var providePlugin = new webpack.ProvidePlugin({
+          <h4 style="margin: 30px 0 0 0;padding: 0;font-size:0.9em">1. ProvidePlugin + expose-loader</h4>
+          <pre style="margin-top:10px"><code class="javascript" data-trim contenteditable style="font-size: 18px;">var providePlugin = new webpack.ProvidePlugin({
   $: 'jquery',
   jQuery: 'jquery',
   'window.jQuery': 'jquery',
   'window.$': 'jquery',
 });</code></pre>
-          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
-            当 webpack 加载到某个 js 模块里，出现了未定义且名称符合（字符串完全匹配）配置中 key 的变量时，会自动 require 配置中 value 所指定的 js 模块。另外，再也不用在代码中加 require('jQuery')。
+          <div style="text-align:left;font-size:24px;width:70%;margin:0 auto;">
+            当 webpack 加载到某个 js 模块里，出现了未定义且名称符合（字符串完全匹配）配置中 key 的变量时，会自动 require 配置中 value 所指定的 js 模块。另外，再也不用在代码中加 require('jquery')。
           </div>
           <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">{
   test: require.resolve('jquery'),
-  // 先把 jQuery 对象声明成为全局变量 `jQuery`，再通过管道进一步声明成为全局变量 `$`
-  loader: 'expose?$!expose?jQuery'
+  // 分别把 jquery 对象声明成为全局变量 jQuery 和 $
+  use: [
+    'expose-loader?$',
+    'expose-loader?jQuery'
+  ]
 }</code></pre>
-          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
+          <div style="text-align:left;font-size:24px;width:70%;margin:0 auto;">
             expose-loader 的作用是，将指定 js 模块 export 的变量声明为全局变量。
           </div>
         </section>
         <section>
           <h4>2. externals</h4>
-          <pre><code class="html"><script src="./js/jquery.min.js"></script></code></pre>
-          <div style="text-align:left;font-size:24px;width:90%;margin:0 auto;">
-            需额外使用 script 标签将 jQuery 引入页面。
+          <pre><code class="html">
+   &lt;script src="./js/jquery.min.js"&gt;&lt;/script&gt;
+          </code></pre>
+          <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+    {
+      externals: {
+        jquery: 'jQuery'
+      }
+    }</code></pre>
+            <div style="text-align:left;font-size:24px;width:70%;margin:0 auto;">
+            需额外使用 script 标签将 jQuery 引入页面 html 中。
             <br>但是当需使用外部 CDN 资源时，以 externals 方式反而更合适。
           </div>
         </section>
@@ -144,31 +167,42 @@ proxy: {
         <br><br>每个值的适用场景不同，组合使用。
       </section>
       <section>
-        <h3>编译性能提升</h3> Happy Pack
+        <h3>编译性能提升</h3>
+        <ul>
+        <li>Happy Pack</li>
+        <li>CommonsChunk</li>
+        <li>Dll &amp; DllReference</li>
+        </ul>
       </section>
       <section>plugins
-        <pre><code class="javascript" data-trim contenteditable style="font-size: 14px;">
+        <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
   {
-    "autoprefixer": "^6.5.1",
     "coala": "~0.0.8",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.26.1",
     "dot-loader": "^0.1.1",
     "expose-loader": "^0.7.1",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "0.8.4",
     "glob": "^7.1.1",
     "happypack": "^3.0.1",
     "html-webpack-plugin": "^2.24.0",
     "jquery": "^1.12.3",
-    "postcss-loader": "^1.1.0",
-    "precss": "^1.4.0",
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.6",
-    "webpack": "^1.12.1",
-    "webpack-dev-server": "^1.10.1"
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1",
+    "webpack-md5-hash": "^0.0.5"
   }
 </code></pre>
+
+      </section>
+      <section>
+      <h3>参考链接</h3>
+      <ul>
+        <li><a href="https://webpack.js.org/guides/" target="_blank">webpack guides</a></li>
+        <li><a href="https://github.com/webpack-contrib/awesome-webpack" target="_blank">awesome webpack</a></li>
+      </ul>
       </section>
     </div>
   </div>
@@ -181,7 +215,6 @@ proxy: {
     width: 1000,
     height: 700,
 
-    // More info https://github.com/hakimel/reveal.js#dependencies
     dependencies: [{
       src: 'plugin/markdown/marked.js'
     }, {
