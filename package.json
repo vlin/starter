@@ -14,7 +14,7 @@
     "extract-text-webpack-plugin": "^2.0.0-rc.3",
     "file-loader": "0.8.4",
     "glob": "^7.1.1",
-    "happypack": "^3.0.2",
+    "happypack": "^3.0.3",
     "html-webpack-plugin": "^2.24.0",
     "jquery": "^1.12.3",
     "ssh-webpack-plugin": "^0.1.7",
@@ -32,5 +32,8 @@
     "qfang"
   ],
   "author": "qfang.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "happypack": "^3.0.3"
+  }
 }

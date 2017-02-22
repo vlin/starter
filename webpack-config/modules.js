@@ -12,26 +12,29 @@ const modules = {
   // ],
   rules: [{
     test: require.resolve('jquery'),
-    loader: 'expose-loader?$!expose-loader?jQuery'
-    // use: [
-    //   'expose-loader?$',
-    //   'expose-loader?jQuery'
-    // ]
+    // loader: 'expose-loader?$!expose-loader?jQuery'
+    use: [
+      'expose-loader?$',
+      'expose-loader?jQuery'
+    ]
   }, {
     test: /\.html$/,
     include: config.srcDir,
-    //loader: 'happypack/loader?id=html'
-    loader: 'dot-loader'
+    // loader: 'happypack/loader?id=html'
+      loader: 'dot-loader'
   }, {
     test: /\.css$/,
     include: config.srcDir,
-    // loader: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'happypack/loader?id=css' })
-
-    //ExtractTextPlugin.extract('style', 'happypack/loader?id=css')
     loader: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      use: 'css-loader?minimize'
+      use: 'happypack/loader?id=css'
     })
+
+    //ExtractTextPlugin.extract('style', 'happypack/loader?id=css')
+    // loader: ExtractTextPlugin.extract({
+    //   fallback: 'style-loader',
+    //   use: 'css-loader'
+    // })
   }, {
     test: /\.(png|jpg|gif)$/,
     include: config.srcDir,
