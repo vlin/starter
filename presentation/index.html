@@ -82,14 +82,20 @@ module.exports = {
         'expose-loader?jQuery'
       ]}
     ]
-  }
+  },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      filename: 'vendor-[hash].min.js',
+    })
+  ]
 };</code></pre>
         </section>
       <section>
         <ol>
           <li>开发环境，反向代理接口服务器</li>
           <li>自动生成静态资源及替换路径</li>
-          <li>全局包如何引用？</li>
+          <li>全局包的引用</li>
           <li>编译性能提升</li>
         </ol>
       </section>
@@ -110,7 +116,7 @@ proxy: {
 </code></pre>
       </section>
       <section>
-        <h3 style="font-size: 1.1em">全局包如何引用?</h3>
+        <h3 style="font-size: 1.1em">全局包的引用</h3>
         <section>
           <h4 style="margin: 30px 0 0 0;padding: 0;font-size:0.9em">1. ProvidePlugin + expose-loader</h4>
           <pre style="margin-top:10px"><code class="javascript" data-trim contenteditable style="font-size: 18px;">var providePlugin = new webpack.ProvidePlugin({
@@ -177,7 +183,7 @@ proxy: {
       <section>plugins
         <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
   {
-    "coala": "~0.0.8",
+    "coala": "~0.0.11",
     "copy-webpack-plugin": "^4.0.0",
     "css-loader": "^0.26.1",
     "dot-loader": "^0.1.1",

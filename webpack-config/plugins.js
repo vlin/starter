@@ -42,7 +42,7 @@ const plugins = [
     { from: path.resolve(config.srcDir, 'assets/vendors/respond.min.js'), to: 'js/' }
   ]),
 
-  createHappyPlugin('html', ['dot']),
+  createHappyPlugin('html', ['dot-loader']),
   createHappyPlugin('css', ['css-loader?minimize']),
   createHappyPlugin('image', ['file-loader?name=static/img/[name]-[hash:8].[ext]']),
 

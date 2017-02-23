@@ -2,8 +2,8 @@
   "name": "qfang-starter-kit",
   "version": "0.0.1",
   "scripts": {
-    "start": "rm -rf .happypack && webpack-dev-server --hot",
-    "build": "rm -rf .happypack dist && webpack --config webpack.production.js --display-modules --profile --colors --deploy"
+    "start": "rm -rf .happypack && webpack-dev-server --env=dev --hot",
+    "build": "rm -rf .happypack dist && webpack --env=prod --optimize-minimize --progress --profile --colors"
   },
   "devDependencies": {
     "coala": "~0.0.8",

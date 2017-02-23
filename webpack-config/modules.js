@@ -20,8 +20,8 @@ const modules = {
   }, {
     test: /\.html$/,
     include: config.srcDir,
-    // loader: 'happypack/loader?id=html'
-      loader: 'dot-loader'
+    loader: 'happypack/loader?id=html'
+    // loader: 'dot-loader'
   }, {
     test: /\.css$/,
     include: config.srcDir,

@@ -20,11 +20,10 @@ module.exports = {
   handle: {
     show: function() {
       require.ensure([], function() {
-        var name = ~~(Math.random() * 10) % 2 ? 'my-aler' : 'tes';
-//        var myAlert = require('./' + name); //require('./my-alert');
-        var myAlert = require(`./${name}t`);
+        var name = ~~(Math.random() * 10) % 2 ? 'my-alert' : 'test';
+        var myAlert = require('./' + name); //require('./my-alert');
+        //var myAlert = require(`./${name}`);
         myAlert();
-
       });
     }
   }
