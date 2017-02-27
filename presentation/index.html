@@ -23,7 +23,7 @@
   <div class="reveal">
     <div class="slides">
       <section>
-        <h1>Webpack</h1>
+        <h1><img src="img/webpack-logo.png" style="border:0"></h1>
         <h3>前后端分离项目脚手架构建实践</h3>
       </section>
       <section>
@@ -40,6 +40,7 @@
         <ol>
           <li class="fragment">旧项目中各种不同的 js 或 css 的依赖关系</li>
           <li class="fragment">代码作用域</li>
+          <li class="fragment">代码复用</li>
           <li class="fragment">重复引入的 js 或 css</li>
         </ol>
       </section>
@@ -61,7 +62,7 @@
         </ul>
       </section>
       <section>
-        最基础的 webpack 配置文件
+        基础的 webpack 配置文件示例
         <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
 // webpack.config.js
 var path = require('path');
@@ -96,7 +97,8 @@ module.exports = {
           <li>开发环境，反向代理接口服务器</li>
           <li>自动生成静态资源及替换路径</li>
           <li>全局包的引用</li>
-          <li>编译性能提升</li>
+          <li>构建加速</li>
+          <li>构建环境区分</li>
         </ol>
       </section>
       <section>
@@ -152,7 +154,8 @@ proxy: {
       }
     }</code></pre>
             <div style="text-align:left;font-size:24px;width:70%;margin:0 auto;">
-            需额外使用 script 标签将 jQuery 引入页面 html 中。
+            配置 externals 来将依赖的库指向全局变量，从而不再打包这个库。
+            <br>需额外使用 &lt;script&gt; 标签将 jQuery 引入页面 html 中。
             <br>但是当需使用外部 CDN 资源时，以 externals 方式反而更合适。
           </div>
         </section>
@@ -173,12 +176,60 @@ proxy: {
         <br><br>每个值的适用场景不同，组合使用。
       </section>
       <section>
-        <h3>编译性能提升</h3>
+        <h3>构建加速</h3>
         <ul>
+        <li>devtool: 'eval'</li>
         <li>Happy Pack</li>
         <li>CommonsChunk</li>
         <li>Dll &amp; DllReference</li>
         </ul>
+      </section>
+      <section>
+      <h3>构建环境区分</h3>
+
+//development.js
+module.exports = {
+  trackingId: 'UA-12345678-1'
+};
+
+//test.js
+module.exports = {
+  trackingId: 'UA-87654321-1'
+};
+
+//production.js
+module.exports = {
+  trackingId: 'UA-88888888-1'
+};
+
+//webpack.config.js
+plugins: [
+  new webpack.ProvidePlugin({
+    ENV: "./env/"+ (process.env.NODE_ENV || "development")
+  })
+]
+
+在环境变量中定义 NODE_ENV 变量帮助 node 识别环境：
+NODE_ENV=test
+
+
+------------
+
+目前知道需要设置两个地方，命令行中加入 NODE_ENV
+
+NODE_ENV=production webpack xxxxx
+and webpack配置里面加入plugin，这样代码就能通过if(__DEBUG__)这种代码做环境差异。
+
+new webpack.DefinePlugin({ 
+ __DEBUG__: env === 'development' ? true : false, 
+ "process.env": { // 干掉 https://fb.me/react-minification 提示 
+   NODE_ENV: env === 'development' ? JSON.stringify("development") : JSON.stringify("production") 
+ }
+ })
+
+
+
+
       </section>
       <section>plugins
         <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
