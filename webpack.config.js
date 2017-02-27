@@ -1,4 +1,2 @@
-module.exports = function (env) {
-  return require('./webpack-config/' + env + '.config.js');
-};
+module.exports = require('./webpack-config/' + process.env.NODE_ENV + '.config.js');
 

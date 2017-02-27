@@ -31,6 +31,10 @@ const plugins = [
     'window.jQuery': 'jquery',
     'window.$': 'jquery'
   }),
+  // 根据不同环境引用不同的配置文件
+  new webpack.ProvidePlugin({
+    ENV: path.resolve(config.srcDir, 'env-config/') + '/' + (process.env.NODE_ENV || 'development')
+  }),
   // new WebpackMd5Hash(), // replace a standard webpack chunkhash with md5.
   new webpack.optimize.CommonsChunkPlugin({
     name: 'common',

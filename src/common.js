@@ -6,6 +6,8 @@ require('vendors/qui/css/bootstrap.min.css');
 require('vendors/iconfont/iconfont.css');
 require('vendors/qui/js/bootstrap.min');
 
+var analytics = require('./analytics').google;
+
 // setup the default parameter for all of the ajax requests
 $.ajaxSetup({
   cache: false,
@@ -40,3 +42,5 @@ $(document).off('ajaxComplete').on('ajaxComplete', function(e, req, options) {
     //layer.close(options.layerId);
   }
 });
+
+analytics();

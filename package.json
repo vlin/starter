@@ -1,9 +1,12 @@
 {
   "name": "qfang-starter-kit",
-  "version": "0.0.1",
+  "version": "0.0.2",
+  "author": "Victor Lin",
   "scripts": {
-    "start": "rm -rf .happypack && webpack-dev-server --env=dev --hot",
-    "build": "rm -rf .happypack dist && webpack --env=prod --optimize-minimize --progress --profile --colors"
+    "clear": "rm -rf .happypack dist",
+    "start": "npm run clear; NODE_ENV=development webpack-dev-server --hot",
+    "build": "npm run clear; NODE_ENV=production webpack --optimize-minimize --progress --profile",
+    "deploy:test": "npm run clear; NODE_ENV=test webpack --config webpack.deploy.js --optimize-minimize --progress --profile"
   },
   "devDependencies": {
     "coala": "~0.0.8",
@@ -24,16 +27,12 @@
     "webpack-dev-server": "^2.4.1",
     "webpack-md5-hash": "^0.0.5"
   },
-  "repository": {
-    "type": "git"
-  },
   "keywords": [
     "coala",
     "qfang"
   ],
-  "author": "qfang.com",
   "license": "MIT",
-  "dependencies": {
-    "happypack": "^3.0.3"
+  "repository": {
+    "type": "git"
   }
 }

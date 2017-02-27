@@ -1,8 +1,6 @@
 const webpack = require('webpack');
 var plugins = require('./plugins');
 
-const SshWebpackPlugin = require('ssh-webpack-plugin');
-
 // plugins.push(
 //   new webpack.optimize.UglifyJsPlugin({
 //     compress: {
@@ -12,20 +10,6 @@ const SshWebpackPlugin = require('ssh-webpack-plugin');
 //   })
 // );
 
-if (process.argv.indexOf('--deploy') > -1) {
-  plugins.push(
-    new SshWebpackPlugin({
-      host: '192.168.0.41',
-      port: '22',
-      username: 'root',
-      password: 'qfang.com',
-      from: './dist',
-      cover: false,
-      to: '/data/www/starter'
-    })
-  );
-}
-
 module.exports = {
   entry: require('./entry'),
   output: require('./output'),
@@ -33,5 +17,9 @@ module.exports = {
   module: require('./modules'),
   resolve: {
     modules: ['node_modules', 'src', 'src/pages', 'src/assets']
+  },
+  // 打包文件的尺寸超出指定限制时进行提示。可通过 maxEntrypointSize/maxAssetSize 等参数根据实际项目环境进行配置
+  performance: {
+    hints: 'warning'
   }
 };
