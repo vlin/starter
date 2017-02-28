@@ -37,7 +37,7 @@
       </section>
       <section>
         <h3>为什么用它？</h3>
-        <ol>
+        <ol style="width: 68%;">
           <li class="fragment">旧项目中各种不同的 js 或 css 的依赖关系</li>
           <li class="fragment">代码作用域</li>
           <li class="fragment">代码复用</li>
@@ -46,12 +46,15 @@
       </section>
       <section>
         <h3>它能做什么？</h3>
-        <ol>
+        <ol style="width: 55%;">
           <li class="fragment">使用 commonJS 规范管理依赖</li>
           <li class="fragment">任何静态资源均可被模块化</li>
           <li class="fragment">支持模块热替换</li>
           <li class="fragment">替代其它构建工具</li>
         </ol>
+      </section>
+      <section>
+      <img src="img/splash.gif" style="border:0">
       </section>
       <section>
         <h3>拥有的特性</h3>
@@ -186,7 +189,9 @@ proxy: {
       </section>
       <section>
       <h3>构建环境区分</h3>
-
+      <section>
+       1. 在不同场景下，针对不同环境使用不同的配置文件
+       <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
 //development.js
 module.exports = {
   trackingId: 'UA-12345678-1'
@@ -201,35 +206,29 @@ module.exports = {
 module.exports = {
   trackingId: 'UA-88888888-1'
 };
-
+</code></pre>
+</section>
+<section>
+2. 定义插件
+<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
 //webpack.config.js
 plugins: [
   new webpack.ProvidePlugin({
-    ENV: "./env/"+ (process.env.NODE_ENV || "development")
+    ENV: "./env-config/"+ (process.env.NODE_ENV || "development")
   })
-]
-
-在环境变量中定义 NODE_ENV 变量帮助 node 识别环境：
-NODE_ENV=test
-
-
-------------
-
-目前知道需要设置两个地方，命令行中加入 NODE_ENV
-
-NODE_ENV=production webpack xxxxx
-and webpack配置里面加入plugin，这样代码就能通过if(__DEBUG__)这种代码做环境差异。
-
-new webpack.DefinePlugin({ 
- __DEBUG__: env === 'development' ? true : false, 
- "process.env": { // 干掉 https://fb.me/react-minification 提示 
-   NODE_ENV: env === 'development' ? JSON.stringify("development") : JSON.stringify("production") 
- }
- })
-
-
-
-
+]</code></pre>
+</section>
+<section>
+3. 在环境变量中定义 NODE_ENV 变量：<br>
+NODE_ENV=development
+<br>
+<br>可直接在 package.json 中定义。
+<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+"scripts": {
+  "start": "NODE_ENV=development webpack-dev-server --hot",
+  "build": "NODE_ENV=production webpack --optimize-minimize"
+}</code></pre>
+</section>
       </section>
       <section>plugins
         <pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
