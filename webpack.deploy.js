@@ -1,4 +1,4 @@
-var config = require('./webpack.config');
+const config = require('./webpack.config');
 const SshWebpackPlugin = require('ssh-webpack-plugin');
 
 config.plugins.push(
