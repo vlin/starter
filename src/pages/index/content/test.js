@@ -1,3 +1,7 @@
+var tpl = require('./test.html');
+
 module.exports = function() {
-  alert('test');
+  $.get('/api/users', function(res) {
+    $('#list').html(tpl(res));
+  });
 };
