@@ -4,13 +4,14 @@
   "author": "Victor Lin",
   "scripts": {
     "clear": "rm -rf .happypack dist",
-    "start": "npm run clear; NODE_ENV=development webpack-dev-server --hot",
-    "build": "npm run clear; NODE_ENV=production webpack --optimize-minimize --progress --profile",
-    "deploy:test": "npm run clear; NODE_ENV=test webpack --config webpack.deploy.js --optimize-minimize --progress --profile"
+    "start": "npm run clear && cross-env NODE_ENV=development webpack-dev-server --hot",
+    "build": "npm run clear && cross-env NODE_ENV=production webpack --optimize-minimize --progress --profile",
+    "deploy:test": "npm run clear && cross-env NODE_ENV=test webpack --config webpack.deploy.js --optimize-minimize --progress --profile"
   },
   "devDependencies": {
     "coala": "~0.0.8",
     "copy-webpack-plugin": "^4.0.0",
+    "cross-env": "^3.2.3",
     "css-loader": "^0.26.1",
     "dot-loader": "^0.1.1",
     "expose-loader": "^0.7.1",
