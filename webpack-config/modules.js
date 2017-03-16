@@ -27,7 +27,8 @@ const modules = {
     include: config.srcDir,
     loader: ExtractTextPlugin.extract({
       fallback: 'style-loader',
-      use: 'happypack/loader?id=css'
+      use: 'happypack/loader?id=css',
+      publicPath: '../' // 配置 css 文件中各类 src/url 属性的路径前缀
     })
 
     //ExtractTextPlugin.extract('style', 'happypack/loader?id=css')
