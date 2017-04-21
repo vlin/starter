@@ -37,7 +37,7 @@ const modules = {
     //   use: 'css-loader'
     // })
   }, {
-    test: /\.(png|jpg|gif)$/,
+    test: /\.(png|jpg|jpeg|gif)$/,
     include: config.srcDir,
     // loader: 'happypack/loader?id=image'
     loader: 'file-loader?name=static/img/[name]-[hash:8].[ext]'

@@ -1,23 +1,17 @@
 var coala = require('coala');
 var config = require('config');
 var tpl = require('./index.html');
-var  $= require('jquery');
-
-
 
 module.exports = {
   tpl: tpl,
   listen: {
-    init: function() {
-    },
+    init: function () {},
 
-    mount: function() {
-    },
+    mount: function () {},
 
-    render: function(data) {
-    },
+    render: function (data) {},
 
-    updated: function() {
+    updated: function () {
       console.log('updated');
     }
   }

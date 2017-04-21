@@ -4,6 +4,7 @@ var invalidSession = false;
 
 require('vendors/qui/css/bootstrap.min.css');
 require('vendors/iconfont/iconfont.css');
+require('css/base.css');
 require('vendors/qui/js/bootstrap.min');
 
 var analytics = require('./analytics').google;

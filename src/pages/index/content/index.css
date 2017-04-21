@@ -1,11 +1,12 @@
-button{
+button {
   display: block;
   margin: 20px 0;
   border: 0;
 }
+
 .msg {
-  color: #f91;
-  background-color: #111;
+  color: #000;
+  background-color: #ccc;
   padding: 5px;
 }
 
@@ -14,5 +15,9 @@ button{
   background-size: 100% 100%;
   width: 127px;
   height: 134px;
-  margin: 20px;
+  margin: 20px 0;
+}
+
+.abc {
+  color: #fff;
 }
