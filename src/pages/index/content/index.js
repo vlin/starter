@@ -1,5 +1,3 @@
-var coala = require('coala');
-var config = require('config');
 var tpl = require('./index.html');
 require('./index.css');
 
@@ -22,7 +20,8 @@ module.exports = {
       require.ensure([], function () {
         var name = ~~(Math.random() * 10) % 2 ? 'my-alert' : 'other-alert';
         var myAlert = require('./' + name);
-        //var myAlert = require(`./${name}`);
+
+        // var myAlert = require(`./${name}`);
         myAlert();
       });
     }

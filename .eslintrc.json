@@ -1,0 +1,49 @@
+{
+  "extends": "airbnb-base",
+  "plugins": [
+    "import"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "commonjs": true,
+    "jquery": true,
+    "es6": false
+  },
+  "globals": {
+    "ENV": true,
+    "ga": true
+  },
+  // "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "no-alert": 0,
+    "no-console": 0,
+    "no-var": 0,
+    "no-bitwise": 0,
+    "func-names": 0,
+    "prefer-arrow-callback": 0,
+    "comma-dangle": 0,
+    "prefer-template": 0,
+    "object-shorthand": 0,
+    "vars-on-top": 0,
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ]
+  }
+}
