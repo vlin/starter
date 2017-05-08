@@ -24,6 +24,7 @@
     "happypack": "^3.0.3",
     "html-webpack-plugin": "^2.24.0",
     "jquery": "^1.12.3",
+    "prepack-webpack-plugin": "^1.1.0",
     "ssh-webpack-plugin": "^0.1.7",
     "style-loader": "^0.12.4",
     "url-loader": "^0.5.6",

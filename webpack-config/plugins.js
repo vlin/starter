@@ -7,6 +7,8 @@ const HappyPack = require('happypack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const PrepackWebpackPlugin = require('prepack-webpack-plugin').default;
+
 var WebpackMd5Hash = require('webpack-md5-hash');
 
 const happyThreadPool = HappyPack.ThreadPool({ size: 10 });
@@ -45,6 +47,8 @@ const plugins = [
   new CopyWebpackPlugin([
     { from: path.resolve(config.srcDir, 'assets/vendors/respond.min.js'), to: 'js/' }
   ]),
+
+  new PrepackWebpackPlugin({}),
 
   createHappyPlugin('html', ['dot-loader']),
   createHappyPlugin('css', ['css-loader?minimize']),

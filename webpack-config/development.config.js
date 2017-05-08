@@ -1,5 +1,5 @@
 module.exports = {
-  devtool: 'eval',
+//  devtool: 'eval',
   devServer: require('./dev-server'),
   entry: require('./entry'),
   output: require('./output'),
