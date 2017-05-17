@@ -1,5 +1,7 @@
 // dev server，定义反向代理
 const devServer = {
+  // 新版 webpack-dev-server 中加入了 hostname 的校验，通过此选项禁用它
+  disableHostCheck: true,
   historyApiFallback: true,
   host: '0.0.0.0',
   port: 8080,
